@@ -103,3 +103,28 @@ jobs:
         with:
           name: raycast-unblock-${{ matrix.os }}-${{ matrix.node }}-app
           path: dist/raycast-unblock-app
+
+  run_test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set node latest
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Download Artifact for App
+        id: download-app
+        uses: actions/download-artifact@v4
+        with:
+          name: raycast-unblock-${{ matrix.os }}-${{ matrix.node }}-app
+
+      - name: Run test
+        run: |
+          sh scipts/workflows/test-app.sh
