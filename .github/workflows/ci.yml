@@ -128,4 +128,4 @@ jobs:
 
       - name: Run test
         run: |
-          sh scipts/workflows/test-app.sh
+          sh scripts/workflows/test-app.sh
