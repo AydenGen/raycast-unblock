@@ -124,6 +124,5 @@ jobs:
 
       - name: Run test
         run: |
-          unzip -o raycast-unblock-app raycast-unblock-${{ matrix.os }}-app.zip
           chmod +x raycast-unblock-app
           sh scripts/workflows/test-app.sh
