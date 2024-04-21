@@ -105,6 +105,7 @@ jobs:
           path: dist/raycast-unblock-app
 
   run_test:
+    needs: build_test
     runs-on: ${{ matrix.os }}
 
     strategy:
