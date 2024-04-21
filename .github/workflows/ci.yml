@@ -62,6 +62,7 @@ jobs:
         run: nr typecheck
 
   build_test:
+    needs: typecheck
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -95,13 +96,13 @@ jobs:
       - name: Upload Artifact for JS
         uses: actions/upload-artifact@v4
         with:
-          name: raycast-unblock-${{ matrix.os }}-${{ matrix.node }}-js
+          name: raycast-unblock-${{ matrix.os }}-js
           path: dist/index.js
 
       - name: Upload Artifact for App
         uses: actions/upload-artifact@v4
         with:
-          name: raycast-unblock-${{ matrix.os }}-${{ matrix.node }}-app
+          name: raycast-unblock-${{ matrix.os }}-app
           path: dist/raycast-unblock-app
 
   run_test:
@@ -115,17 +116,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set node latest
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
 
       - name: Download Artifact for App
-        id: download-app
         uses: actions/download-artifact@v4
         with:
-          name: raycast-unblock-${{ matrix.os }}-${{ matrix.node }}-app
+          name: raycast-unblock-${{ matrix.os }}-app
 
       - name: Run test
         run: |
+          unzip -o raycast-unblock-app raycast-unblock-${{ matrix.os }}-app.zip
+          chmod +x raycast-unblock-app
           sh scripts/workflows/test-app.sh
